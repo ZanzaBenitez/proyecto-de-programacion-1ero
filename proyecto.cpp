@@ -55,8 +55,8 @@
     cout << BLUE << "   Please write the price of the product" << RESET << endl;
     cin >> price[0];
     cout << BLUE << "   Please write the description of the product" << RESET << endl;
-    cin>>description[0];
-     cout << BLUE << "   Please write the quantity of the product" << RESET << endl;
+    cin >> description[0];
+    cout << BLUE << "   Please write the quantity of the product" << RESET << endl;
     cin >> quantity[0];
     cout << BLUE << "   Please write the product code" << RESET << endl;
     cin >> productCode[0];
@@ -133,12 +133,15 @@
     /*
     Hacer reporte del proyecto --- Benitez
     Añadir documentación de las funciones --- Stratta
-    Función alta --- Stratta
+    Función alta --- DONE 50%
     Función baja --- Cesar
-    Función cambio --- Benitez / stratta
+    Función cambio --- Benitez / strattA
     Función generar reporte --- Angel Towers
     Función generar historial --- tentativo >:D
     Función ordenar por numero --- César
     Función ordenar por letra --- César
-    Hacer menú (solicitar datos al usuario, imprimir menú, etc...) --- Benitez
+    Hacer menú  DONE
     */
+
+   //Para colorear partes del codigo es necesario declarar globalmente el color, en el siguiente commit subo la tabla de codigos aqui en comentarios
+   
