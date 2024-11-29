@@ -49,8 +49,11 @@
     switch (opcion)
     {
     case 1:
-    
-    cout << BLUE << "   Please write the name of the product" << RESET << endl;
+     cout << GREEN <<"===========================================" << RESET << endl;
+    cout << GREEN << "            Register Products              " << RESET << endl;
+    cout << GREEN << "===========================================" << RESET << endl;
+    cout << endl;
+     cout << BLUE << "   Please write the name of the product" << RESET << endl;
     cin >> nameofproducts[0];
     cout << BLUE << "   Please write the price of the product" << RESET << endl;
     cin >> price[0];
@@ -68,7 +71,10 @@
         // TODO: Dar de baja un producto
         break;
     case 3:
-        // TODO: Modificar un producto
+    cout << GREEN << "==========================================" << RESET << endl;
+    cout << GREEN << "               Edit a Product             " << RESET << endl;
+    cout << GREEN << "==========================================" << RESET << endl;
+    cout << endl;
         break;
     case 4:
         // TODO: Generar reporte
@@ -144,4 +150,15 @@
     */
 
    //Para colorear partes del codigo es necesario declarar globalmente el color, en el siguiente commit subo la tabla de codigos aqui en comentarios
-   
+ /* USAR ESTO PARA CADA OPCION
+  cout << GREEN <<"===========================================" << RESET << endl;
+    cout << GREEN << "            Register Products              " << RESET << endl;
+    cout << GREEN << "===========================================" << RESET << endl;
+    cout << endl;
+ 
+ 
+ 
+ 
+ 
+ 
+ */
