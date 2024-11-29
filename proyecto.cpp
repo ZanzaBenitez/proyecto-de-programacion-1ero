@@ -68,22 +68,40 @@
 
         break;
     case 2:
-        // TODO: Dar de baja un producto
-        break;
+    cout << GREEN << "==========================================" << RESET << endl;
+    cout << GREEN << "              DELETE PRODUCTS             " << RESET << endl;
+    cout << GREEN << "==========================================" << RESET << endl;
+    cout << endl;
+    break;
     case 3:
     cout << GREEN << "==========================================" << RESET << endl;
     cout << GREEN << "               Edit a Product             " << RESET << endl;
     cout << GREEN << "==========================================" << RESET << endl;
     cout << endl;
+    
+    cout << BLUE << "Please select one of the following options:" << RESET << endl;
+    cout << "------------------------------------------" << endl;
+    cout << "  " << BLUE << "1." << RESET << "  Name" << endl;
+    cout << "  " << BLUE << "2." << RESET << "  Product info" << endl;
+    cout << "  " << BLUE << "3." << RESET << "  Price" << endl;
+    cout << "  " << BLUE << "4." << RESET << "  Stock" << endl;
+    cout << "  " << BLUE << "5." << RESET << "  Code" << endl;
+    cout << "------------------------------------------" << endl;
         break;
     case 4:
-        // TODO: Generar reporte
-        break;
+    cout << GREEN << "==========================================" << RESET << endl;
+    cout << GREEN << "               PRODUCT REPORT             " << RESET << endl;
+    cout << GREEN << "==========================================" << RESET << endl;
+    cout << endl;
+    break;
     case 5:
-        // TODO: Entradas y salidas
+    cout << GREEN << "==========================================" << RESET << endl;
+    cout << GREEN << "                 In & Out                 " << RESET << endl;
+    cout << GREEN << "==========================================" << RESET << endl;
+    cout << endl;
         break;
     case 6:
-        // TODO: Salir del menu
+        cout << RED << "Your session has been safely terminated" << RESET << endl;
     break;
     default:
         cout << RED << "Invalid option, please try again." << RESET << endl;
@@ -139,11 +157,11 @@
     /*
     Hacer reporte del proyecto --- Benitez
     Añadir documentación de las funciones --- Stratta
-    Función alta --- DONE 50%
+    Función alta --- stratta DONE 50%
     Función baja --- Cesar
-    Función cambio --- Benitez / strattA
+    Función cambio --- strattA
     Función generar reporte --- Angel Towers
-    Función generar historial --- tentativo >:D
+    Función generar historial --- César
     Función ordenar por numero --- César
     Función ordenar por letra --- César
     Hacer menú  DONE
