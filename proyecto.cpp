@@ -98,19 +98,149 @@ int main()
 // Función para registrar productos
 void alta(void)
 {
-    // Implementar lógica de registro
+    static int numeroProductos = 0; 
+
+    if (numeroProductos >= 100)
+    {
+        cout << ROJO << "No se pueden registrar más productos. El inventario está lleno." << REINICIAR << endl;
+        return;
+    }
+
+    cout << AZUL << "Ingresa los datos del nuevo producto:" << REINICIAR << endl;
+
+    cout << "Nombre del producto: ";
+    cin.ignore(); 
+    getline(cin, nombresProductos[numeroProductos]);
+
+    cout << "Descripción: ";
+    getline(cin, descripciones[numeroProductos]);
+
+    cout << "Precio: $";
+    cin >> precios[numeroProductos];
+    while (precios[numeroProductos] <= 0)
+    {
+        cout << ROJO << "El precio debe ser mayor a 0. Inténtalo de nuevo: $" << REINICIAR;
+        cin >> precios[numeroProductos];
+    }
+
+    cout << "Cantidad en inventario: ";
+    cin >> cantidades[numeroProductos];
+    while (cantidades[numeroProductos] < 0)
+    {
+        cout << ROJO << "La cantidad no puede ser negativa. Inténtalo de nuevo: " << REINICIAR;
+        cin >> cantidades[numeroProductos];
+    }
+
+    cout << "Código del producto: ";
+    cin >> codigosProductos[numeroProductos];
+
+    cout << VERDE << "Producto registrado exitosamente." << REINICIAR << endl;
+
+    numeroProductos++; 
 }
 
 // Función para eliminar productos
 void baja(void)
 {
-    // Implementar lógica de eliminación
+    cout << AZUL << "Ingresa el código del producto que deseas eliminar: " << REINICIAR;
+    string codigoABorrar;
+    cin >> codigoABorrar;
+
+    bool encontrado = false;
+
+    for (int i = 0; i < 100; i++)
+    {
+        if (codigosProductos[i] == codigoABorrar && !nombresProductos[i].empty())
+        {
+            encontrado = true;
+
+            
+            nombresProductos[i].clear();
+            descripciones[i].clear();
+            codigosProductos[i].clear();
+            precios[i] = 0;
+            cantidades[i] = 0;
+
+            cout << VERDE << "Producto eliminado exitosamente." << REINICIAR << endl;
+            break;
+        }
+    }
+
+    if (!encontrado)
+    {
+        cout << ROJO << "No se encontró un producto con el código proporcionado." << REINICIAR << endl;
+    }
 }
 
 // Función para modificar productos
 void modificar(void)
 {
-    // Implementar lógica de modificación
+cout << AZUL << "Ingresa el código del producto que deseas modificar: " << REINICIAR;
+    string codigoAModificar;
+    cin >> codigoAModificar;
+
+    bool encontrado = false;
+
+    for (int i = 0; i < 100; i++)
+    {
+        if (codigosProductos[i] == codigoAModificar && !nombresProductos[i].empty())
+        {
+            encontrado = true;
+
+            cout << VERDE << "Producto encontrado. Ingresa los nuevos datos." << REINICIAR << endl;
+
+            cout << "Nombre actual: " << nombresProductos[i] << endl;
+            cout << "Nuevo nombre (o presiona Enter para dejarlo igual): ";
+            cin.ignore(); 
+            string nuevoNombre;
+            getline(cin, nuevoNombre);
+            if (!nuevoNombre.empty())
+                nombresProductos[i] = nuevoNombre;
+
+            cout << "Descripción actual: " << descripciones[i] << endl;
+            cout << "Nueva descripción (o presiona Enter para dejarla igual): ";
+            string nuevaDescripcion;
+            getline(cin, nuevaDescripcion);
+            if (!nuevaDescripcion.empty())
+                descripciones[i] = nuevaDescripcion;
+
+            cout << "Precio actual: $" << precios[i] << endl;
+            cout << "Nuevo precio (o presiona Enter para dejarlo igual): ";
+            string nuevoPrecioStr;
+            getline(cin, nuevoPrecioStr);
+            if (!nuevoPrecioStr.empty())
+            {
+                float nuevoPrecio = stof(nuevoPrecioStr); 
+                if (nuevoPrecio > 0)
+                    precios[i] = nuevoPrecio;
+                else
+                    cout << ROJO << "Precio inválido. Se conserva el precio actual." << REINICIAR << endl;
+            }
+
+            cout << "Cantidad actual: " << cantidades[i] << endl;
+            cout << "Nueva cantidad (o presiona Enter para dejarla igual): ";
+            string nuevaCantidadStr;
+            getline(cin, nuevaCantidadStr);
+            if (!nuevaCantidadStr.empty())
+            {
+                int nuevaCantidad = stoi(nuevaCantidadStr); 
+                if (nuevaCantidad >= 0)
+                    cantidades[i] = nuevaCantidad;
+                else
+                    cout << ROJO << "Cantidad inválida. Se conserva la cantidad actual." << REINICIAR << endl;
+            }
+
+            cout << VERDE << "Producto modificado exitosamente." << REINICIAR << endl;
+            break;
+        }
+    }
+
+    if (!encontrado)
+    {
+        cout << ROJO << "No se encontró un producto con el código proporcionado." << REINICIAR << endl;
+    }
+
+
 }
 
 // Función para generar reportes
