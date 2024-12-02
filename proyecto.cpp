@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string.h>
 #include <string>
+#include <cstdlib>
 using namespace std;
 
 // variables de colores
@@ -20,101 +21,78 @@ string codigosProductos[100];
 int ordenadoPorNumero[1];
 string ordenadoPorLetra[1];
 
+// Manejo del menu
+void imprimirMenu(int opcion);
+void limpiarPantalla(void);
+int validarOpcion(string s);
+void continuar(void);
+
 // Declaración de funciones
 void alta(void);
 void baja(void);
-void cambio(void);
+void modificar(void);
 void generarReporte(void);
 void historial(void);
 void ordenarPorNumero(void);
 void ordenarPorLetra(void);
 
-int opcion;
 
 int main()
 {
-    cout << VERDE << "==========================================" << REINICIAR << endl;
-    cout << VERDE << "           Base de Datos Walmart          " << REINICIAR << endl;
-    cout << VERDE << "==========================================" << REINICIAR << endl;
-    cout << endl;
-    cout << AZUL << "Por favor selecciona una de las siguientes opciones:" << REINICIAR << endl;
-    cout << "------------------------------------------" << endl;
-    cout << "  " << AZUL << "1." << REINICIAR << "  Registrar Productos" << endl;
-    cout << "  " << AZUL << "2." << REINICIAR << "  Eliminar Productos" << endl;
-    cout << "  " << AZUL << "3." << REINICIAR << "  Editar Productos" << endl;
-    cout << "  " << AZUL << "4." << REINICIAR << "  Reporte de Productos" << endl;
-    cout << "  " << AZUL << "5." << REINICIAR << "  Entradas y Salidas" << endl;
-    cout << "  " << AZUL << "6." << REINICIAR << "  Cerrar Sesión" << endl;
-    cout << "------------------------------------------" << endl;
-    cin >> opcion;
-    cout << "------------------------------------------" << endl;
+    string str; // Función auxiliar para validar la opcion que ponga el usuario
+    int opcion; // Opcion a elegir en el menu
 
-    switch (opcion)
+    while (true) // El programa acaba hasta que el usuario elija la opcion 6 (salir)
     {
-    case 1:
-        cout << VERDE << "===========================================" << REINICIAR << endl;
-        cout << VERDE << "            Registrar Productos            " << REINICIAR << endl;
-        cout << VERDE << "===========================================" << REINICIAR << endl;
-        cout << endl;
-        cout << AZUL << "   Ingresa el nombre del producto:" << REINICIAR << endl;
-        cin >> nombresProductos[0];
-        cout << AZUL << "   Ingresa el precio del producto:" << REINICIAR << endl;
-        cin >> precios[0];
-        cout << AZUL << "   Ingresa la descripción del producto:" << REINICIAR << endl;
-        cin >> descripciones[0];
-        cout << AZUL << "   Ingresa la cantidad del producto:" << REINICIAR << endl;
-        cin >> cantidades[0];
-        cout << AZUL << "   Ingresa el código del producto:" << REINICIAR << endl;
-        cin >> codigosProductos[0];
-        cout << VERDE << "¡Datos del producto registrados exitosamente!" << REINICIAR << endl;
-        break;
+        imprimirMenu(0);
+        cin >> str;
+        opcion = validarOpcion(str);
 
-    case 2:
-        cout << VERDE << "==========================================" << REINICIAR << endl;
-        cout << VERDE << "              ELIMINAR PRODUCTOS          " << REINICIAR << endl;
-        cout << VERDE << "==========================================" << REINICIAR << endl;
-        cout << endl;
-        break;
+        limpiarPantalla();
+        switch (opcion)
+        {
+            case 1: // Añadir producto
+                imprimirMenu(opcion);
+                alta();
+                continuar();
+            break;
 
-    case 3:
-        cout << VERDE << "==========================================" << REINICIAR << endl;
-        cout << VERDE << "               EDITAR PRODUCTO            " << REINICIAR << endl;
-        cout << VERDE << "==========================================" << REINICIAR << endl;
-        cout << endl;
-        cout << AZUL << "Selecciona qué deseas editar:" << REINICIAR << endl;
-        cout << "------------------------------------------" << endl;
-        cout << "  " << AZUL << "1." << REINICIAR << "  Nombre" << endl;
-        cout << "  " << AZUL << "2." << REINICIAR << "  Descripción" << endl;
-        cout << "  " << AZUL << "3." << REINICIAR << "  Precio" << endl;
-        cout << "  " << AZUL << "4." << REINICIAR << "  Stock" << endl;
-        cout << "  " << AZUL << "5." << REINICIAR << "  Código" << endl;
-        cout << "------------------------------------------" << endl;
-        break;
+            case 2: // Eliminar producto
+                imprimirMenu(opcion);
+                baja();
+                continuar();
+            break;
 
-    case 4:
-        cout << VERDE << "==========================================" << REINICIAR << endl;
-        cout << VERDE << "            REPORTE DE PRODUCTOS          " << REINICIAR << endl;
-        cout << VERDE << "==========================================" << REINICIAR << endl;
-        cout << endl;
-        break;
+            case 3: // Editar producto
+                imprimirMenu(opcion);
+                modificar();
+                continuar();
+            break;
 
-    case 5:
-        cout << VERDE << "==========================================" << REINICIAR << endl;
-        cout << VERDE << "               ENTRADAS Y SALIDAS         " << REINICIAR << endl;
-        cout << VERDE << "==========================================" << REINICIAR << endl;
-        cout << endl;
-        break;
+            case 4: // Generar reporte
+                imprimirMenu(opcion);
+                generarReporte();
+                continuar();
+            break;
 
-    case 6:
-        cout << ROJO << "Sesión terminada correctamente" << REINICIAR << endl;
-        break;
+            case 5: // Entradas y salidas
+                imprimirMenu(opcion);
+                historial();                
+                continuar();
+            break;
 
-    default:
-        cout << ROJO << "Opción inválida, intenta de nuevo." << REINICIAR << endl;
-        break;
+            case 6: // Terminar programa
+                cout << ROJO << "Sesión terminada correctamente" << REINICIAR << endl;
+                return 0;
+            break;
+
+            default:
+                cout << ROJO << "Opción inválida, intenta de nuevo." << REINICIAR << endl;
+                continuar();
+            break;
+        }
+        limpiarPantalla();
     }
-
-    return 0;
 }
 
 // Función para registrar productos
@@ -159,10 +137,98 @@ void ordenarPorLetra(void)
     // Implementar lógica de ordenamiento alfabético
 }
 
+// Elimina todos los carácteres de la pantalla del usuario usando comandos
+// Detecta si el usuario tiene windows o linux/mac
+void limpiarPantalla(void)
+{
+    #ifdef _WIN32
+        system("cls"); // Para Windows
+    #else
+        system("clear"); // Para Linux/Mac
+    #endif
+}
 
-// Nota 1: Hagan las variables GLOBALES!!!!!!!!!!!!!!!
+// Imprime el menú correspondiente a lo que haya elegido el usuario.
+// Cuando opcion es igual a 0, se imprime el menú principal
+void imprimirMenu(int opcion)
+{
+    switch (opcion)
+    {
+        case 0:
+            cout << VERDE << "==========================================" << REINICIAR << endl;
+            cout << VERDE << "           Base de Datos Walmart          " << REINICIAR << endl;
+            cout << VERDE << "==========================================" << REINICIAR << endl;
+            cout << endl;
+            cout << AZUL << "Por favor selecciona una de las siguientes opciones:" << REINICIAR << endl;
+            cout << "------------------------------------------" << endl;
+            cout << "  " << AZUL << "1." << REINICIAR << "  Registrar Productos" << endl;
+            cout << "  " << AZUL << "2." << REINICIAR << "  Eliminar Productos" << endl;
+            cout << "  " << AZUL << "3." << REINICIAR << "  Editar Productos" << endl;
+            cout << "  " << AZUL << "4." << REINICIAR << "  Reporte de Productos" << endl;
+            cout << "  " << AZUL << "5." << REINICIAR << "  Entradas y Salidas" << endl;
+            cout << "  " << AZUL << "6." << REINICIAR << "  Cerrar Sesión" << endl;
+            cout << "------------------------------------------" << endl;
+        break;
+        case 1:
+            cout << VERDE << "===========================================" << REINICIAR << endl;
+            cout << VERDE << "            Registrar Productos            " << REINICIAR << endl;
+            cout << VERDE << "===========================================" << REINICIAR << endl;
+            cout << endl;
+        break;
+        case 2:
+            cout << VERDE << "==========================================" << REINICIAR << endl;
+            cout << VERDE << "              ELIMINAR PRODUCTOS          " << REINICIAR << endl;
+            cout << VERDE << "==========================================" << REINICIAR << endl;
+            cout << endl;
+        break;
+        case 3:
+            cout << VERDE << "==========================================" << REINICIAR << endl;
+            cout << VERDE << "               EDITAR PRODUCTO            " << REINICIAR << endl;
+            cout << VERDE << "==========================================" << REINICIAR << endl;
+            cout << endl;
+        break;
+        case 4:
+            cout << VERDE << "==========================================" << REINICIAR << endl;
+            cout << VERDE << "            REPORTE DE PRODUCTOS          " << REINICIAR << endl;
+            cout << VERDE << "==========================================" << REINICIAR << endl;
+            cout << endl;
+        break;
+        case 5:
+            cout << VERDE << "==========================================" << REINICIAR << endl;
+            cout << VERDE << "               ENTRADAS Y SALIDAS         " << REINICIAR << endl;
+            cout << VERDE << "==========================================" << REINICIAR << endl;
+            cout << endl;
+        break;
+    }
+}
 
-/*  Lista de cosas por hacer. Pon tu nombre al lado para reclamar la tarea
+// Valida que un string s sea un caracter entre 0 y 9 (que su valor ascii sea entre 48 y 57 inclusive)
+// Si s es un numero entre 0 y 9, se regresa ese número convertido a string.
+// De otra forma, se regresa -1
+int validarOpcion(string s)
+{
+    if (s.length() != 1) // Validar que puso solo un caracter
+    {
+        return -1;
+    }
+    if (!(s[0] >= 48 && s[0] <= 57)) // Validar que el valor ascii del caracter corresponda a un numero entre 0 y 9
+    {
+        return -1;
+    }
+    int res = s[0] - 48; // Tomar el valor ascii del caracter (numero entre 0 y 9 ) y convertirlo a int
+    return res;
+}
+
+void continuar(void)
+{
+    string aux;
+    cout << VERDE << "Ingresa cualquier caracter para continuar." << REINICIAR << endl;
+    cin >> aux;
+}
+
+/*  
+
+Lista de cosas por hacer. Pon tu nombre al lado para reclamar la tarea
     Hacer reporte del proyecto --- Benitez
     Añadir documentación de las funciones --- Stratta
     Función alta --- stratta DONE 50%
@@ -174,6 +240,8 @@ void ordenarPorLetra(void)
     Función ordenar por letra --- César
     Hacer menú  DONE
 
+Nota 1: Hagan las variables GLOBALES!!!!!!!!!!!!!!!
+
 Nota 2:
     Para colorear partes del codigo es necesario declarar globalmente el color, 
     en el siguiente commit subo la tabla de codigos aqui en comentarios
@@ -182,6 +250,4 @@ Nota 2:
     cout << GREEN << "            Register Products              " << RESET << endl;
     cout << GREEN << "===========================================" << RESET << endl;
     cout << endl;
-
-
 */
