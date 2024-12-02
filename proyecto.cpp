@@ -231,7 +231,7 @@ void continuar(void)
 Lista de cosas por hacer. Pon tu nombre al lado para reclamar la tarea
     Hacer reporte del proyecto --- Benitez
     Añadir documentación de las funciones --- Stratta
-    Función alta --- stratta DONE 50%
+    Función alta --- stratta DONE 
     Función baja --- Cesar
     Función cambio --- strattA
     Función generar reporte --- Angel Towers
