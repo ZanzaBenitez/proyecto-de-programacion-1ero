@@ -270,16 +270,21 @@ void generarReporte(void)
 
     // Crear copias para ordenar sin afectar el array original
     int indices[100];
-    for (int i = 0; i < totalProductos; i++) {
+    for (int i = 0; i < totalProductos; i++) 
+    {
         indices[i] = i; // Inicializar índices
     }
 
     // Ordenar por criterio seleccionado
-    if (opcionOrdenamiento == 1) {
+    if (opcionOrdenamiento == 1) 
+    {
         // Ordenar por número de producto
-        for (int i = 0; i < totalProductos - 1; i++) {
-            for (int j = i + 1; j < totalProductos; j++) {
-                if (nombresProductos[indices[i]] > nombresProductos[indices[j]]) {
+        for (int i = 0; i < totalProductos - 1; i++) 
+        {
+            for (int j = i + 1; j < totalProductos; j++) 
+            {
+                if (nombresProductos[indices[i]] > nombresProductos[indices[j]]) 
+                {
                     // Intercambio de variables
                     int temp = indices[i];
                     indices[i] = indices[j];
@@ -287,11 +292,24 @@ void generarReporte(void)
                 }
             }
         }
-    } else if (opcionOrdenamiento == 2) {
+    } 
+    else if (opcionOrdenamiento == 2) 
+    {
         // Ordenar por nombre de producto
-        for (int i = 0; i < totalProductos - 1; i++) {
-            for (int j = i + 1; j < totalProductos; j++) {
-                if (nombresProductos[indices[i]] > nombresProductos[indices[j]]) {
+        for (int i = 0; i < totalProductos - 1; i++) 
+        {
+            for (int j = i + 1; j < totalProductos; j++) 
+            {
+                // Comparar ignorando mayúsculas y minúsculas
+                string nombre1 = nombresProductos[indices[i]];
+                string nombre2 = nombresProductos[indices[j]];
+
+                // Convertir ambos nombres a minúsculas para comparación
+                for (char &c : nombre1) c = tolower(c);
+                for (char &c : nombre2) c = tolower(c);
+
+                if (nombre1 > nombre2) 
+                {
                     // Intercambio de variables
                     int temp = indices[i];
                     indices[i] = indices[j];
@@ -299,15 +317,16 @@ void generarReporte(void)
                 }
             }
         }
-    } else {
+    } 
+    else 
+    {
         cout << ROJO << "Opción no válida. Muestra sin ordenamiento." << REINICIAR << endl;
     }
 
     // Mostrar el reporte
-    cout << VERDE << "==========================================" << REINICIAR << endl;
-    cout << VERDE << "               PRODUCT REPORT             " << REINICIAR << endl;
-    cout << VERDE << "==========================================" << REINICIAR << endl;
-    for (int i = 0; i < totalProductos; i++) {
+    imprimirMenu(4);
+    for (int i = 0; i < totalProductos; i++) 
+    {
         int idx = indices[i];
         cout << "Número: " << codigosProductos[idx] << endl;
         cout << "Nombre: " << nombresProductos[idx] << endl;
@@ -372,7 +391,7 @@ void imprimirMenu(int opcion)
         break;
         case 1:
             cout << VERDE << "===========================================" << REINICIAR << endl;
-            cout << VERDE << "            Registrar Productos            " << REINICIAR << endl;
+            cout << VERDE << "             REISTRAR PRODUCTOS            " << REINICIAR << endl;
             cout << VERDE << "===========================================" << REINICIAR << endl;
             cout << endl;
         break;
