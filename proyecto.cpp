@@ -175,7 +175,7 @@ void baja(void)
 // Función para modificar productos
 void modificar(void)
 {
-cout << AZUL << "Ingresa el código del producto que deseas modificar: " << REINICIAR;
+    cout << AZUL << "Ingresa el código del producto que deseas modificar: " << REINICIAR;
     string codigoAModificar;
     cin >> codigoAModificar;
 
