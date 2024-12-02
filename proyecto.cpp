@@ -2,6 +2,7 @@
 #include <string.h>
 #include <string>
 #include <cstdlib>
+#include <cctype>
 using namespace std;
 
 // variables de colores
@@ -33,9 +34,6 @@ void baja(void);
 void modificar(void);
 void generarReporte(void);
 void historial(void);
-void ordenarPorNumero(void);
-void ordenarPorLetra(void);
-
 
 int main()
 {
@@ -250,14 +248,16 @@ void generarReporte(void)
     int totalProductos = 0;
 
     // Contar productos registrados
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 100; i++) 
+    {
         if (!codigosProductos[i].empty()) { // Verificar si el código del producto no está vacío
             totalProductos++;
         }
     }
 
     // Verificar si existen productos registrados
-    if (totalProductos == 0) {
+    if (totalProductos == 0) 
+    {
         cout << ROJO << "No hay productos registrados." << REINICIAR << endl;
         return;
     }
@@ -343,18 +343,6 @@ void generarReporte(void)
 void historial(void)
 {
     // Implementar lógica de historial
-}
-
-// Función para ordenar por número
-void ordenarPorNumero(void)
-{
-    // Implementar lógica de ordenamiento numérico
-}
-
-// Función para ordenar por letra
-void ordenarPorLetra(void)
-{
-    // Implementar lógica de ordenamiento alfabético
 }
 
 // Elimina todos los carácteres de la pantalla del usuario usando comandos
@@ -450,15 +438,7 @@ void continuar(void)
 
 Lista de cosas por hacer. Pon tu nombre al lado para reclamar la tarea
     Hacer reporte del proyecto --- Benitez
-    Añadir documentación de las funciones --- Stratta
-    Función alta --- stratta DONE 
-    Función baja --- Cesar
-    Función cambio --- strattA
-    Función generar reporte --- Angel Towers
     Función generar historial --- César
-    Función ordenar por numero --- César
-    Función ordenar por letra --- César
-    Hacer menú  DONE
 
 Nota 1: Hagan las variables GLOBALES!!!!!!!!!!!!!!!
 
