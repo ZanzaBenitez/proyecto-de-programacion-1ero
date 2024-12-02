@@ -114,9 +114,80 @@ void modificar(void)
 }
 
 // Función para generar reportes
-void generarReporte(void)
+void generarReporte(void) 
 {
-    // Implementar lógica de reporte
+    int opcionOrdenamiento;
+    int totalProductos = 0;
+
+    // Contar productos registrados
+    for (int i = 0; i < 100; i++) {
+        if (!codigosProductos[i].empty()) { // Verificar si el código del producto no está vacío
+            totalProductos++;
+        }
+    }
+
+    // Verificar si existen productos registrados
+    if (totalProductos == 0) {
+        cout << ROJO << "No hay productos registrados." << REINICIAR << endl;
+        return;
+    }
+
+    // Preguntar al usuario cómo desea ordenar
+    cout << AZUL << "Seleccione el criterio de ordenamiento:" << REINICIAR << endl;
+    cout << "1. Por número de producto" << endl;
+    cout << "2. Por nombre de producto" << endl;
+    cin >> opcionOrdenamiento;
+
+    // Crear copias para ordenar sin afectar el array original
+    int indices[100];
+    for (int i = 0; i < totalProductos; i++) {
+        indices[i] = i; // Inicializar índices
+    }
+
+    // Ordenar por criterio seleccionado
+    if (opcionOrdenamiento == 1) {
+        // Ordenar por número de producto
+        for (int i = 0; i < totalProductos - 1; i++) {
+            for (int j = i + 1; j < totalProductos; j++) {
+                if (nombresProductos[indices[i]] > nombresProductos[indices[j]]) {
+                    // Intercambio de variables
+                    int temp = indices[i];
+                    indices[i] = indices[j];
+                    indices[j] = temp;
+                }
+            }
+        }
+    } else if (opcionOrdenamiento == 2) {
+        // Ordenar por nombre de producto
+        for (int i = 0; i < totalProductos - 1; i++) {
+            for (int j = i + 1; j < totalProductos; j++) {
+                if (nombresProductos[indices[i]] > nombresProductos[indices[j]]) {
+                    // Intercambio de variables
+                    int temp = indices[i];
+                    indices[i] = indices[j];
+                    indices[j] = temp;
+                }
+            }
+        }
+    } else {
+        cout << ROJO << "Opción no válida. Muestra sin ordenamiento." << REINICIAR << endl;
+    }
+
+    // Mostrar el reporte
+    cout << VERDE << "==========================================" << REINICIAR << endl;
+    cout << VERDE << "               PRODUCT REPORT             " << REINICIAR << endl;
+    cout << VERDE << "==========================================" << REINICIAR << endl;
+    for (int i = 0; i < totalProductos; i++) {
+        int idx = indices[i];
+        cout << "Número: " << codigosProductos[idx] << endl;
+        cout << "Nombre: " << nombresProductos[idx] << endl;
+        cout << "Descripción: " << descripciones[idx] << endl;
+        cout << "Precio unitario: $" << precios[idx] << endl;
+        cout << "Cantidad en existencia: " << cantidades[idx] << endl;
+        cout << "------------------------------------------" << endl;
+    }
+
+    cout << AZUL << "Total de productos registraados: " << totalProductos << REINICIAR << endl;
 }
 
 // Función para mostrar historial
