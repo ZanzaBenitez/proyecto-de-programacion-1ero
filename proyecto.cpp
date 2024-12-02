@@ -98,9 +98,7 @@ int main()
 // Función para registrar productos
 void alta(void)
 {
-   
-
-static int numeroProductos = 0; 
+    static int numeroProductos = 0; 
 
     if (numeroProductos >= 100)
     {
@@ -139,14 +137,11 @@ static int numeroProductos = 0;
     cout << VERDE << "Producto registrado exitosamente." << REINICIAR << endl;
 
     numeroProductos++; 
-
-
 }
 
 // Función para eliminar productos
 void baja(void)
 {
-  
     cout << AZUL << "Ingresa el código del producto que deseas eliminar: " << REINICIAR;
     string codigoABorrar;
     cin >> codigoABorrar;
@@ -175,8 +170,6 @@ void baja(void)
     {
         cout << ROJO << "No se encontró un producto con el código proporcionado." << REINICIAR << endl;
     }
-
-
 }
 
 // Función para modificar productos
