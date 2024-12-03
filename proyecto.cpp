@@ -543,21 +543,3 @@ void continuar(void)
     cout << VERDE << "Ingresa cualquier carácter para continuar." << REINICIAR << endl;
     cin >> aux;
 }
-
-/*  
-
-Lista de cosas por hacer. Pon tu nombre al lado para reclamar la tarea
-    Hacer reporte del proyecto --- Benitez
-    Función generar historial --- César
-
-Nota 1: Hagan las variables GLOBALES!!!!!!!!!!!!!!!
-
-Nota 2:
-    Para colorear partes del codigo es necesario declarar globalmente el color, 
-    en el siguiente commit subo la tabla de codigos aqui en comentarios
-    USAR ESTO PARA CADA OPCION
-    cout << GREEN <<"===========================================" << RESET << endl;
-    cout << GREEN << "            Register Products              " << RESET << endl;
-    cout << GREEN << "===========================================" << RESET << endl;
-    cout << endl;
-*/
