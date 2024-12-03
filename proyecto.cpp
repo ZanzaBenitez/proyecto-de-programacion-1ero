@@ -2,6 +2,7 @@
 #include <string.h>
 #include <string>
 #include <cstdlib>
+#include <algorithm>
 #include <cctype>
 using namespace std;
 
@@ -34,6 +35,8 @@ void baja(void);
 void modificar(void);
 void generarReporte(void);
 void historial(void);
+
+int numeroProductos = 0; 
 
 int main()
 {
@@ -96,8 +99,6 @@ int main()
 // Función para registrar productos
 void alta(void)
 {
-    static int numeroProductos = 0; 
-
     if (numeroProductos >= 100)
     {
         cout << ROJO << "No se pueden registrar más productos. El inventario está lleno." << REINICIAR << endl;
@@ -117,49 +118,68 @@ void alta(void)
     cin >> precios[numeroProductos];
     while (precios[numeroProductos] <= 0)
     {
-        cout << ROJO << "El precio debe ser mayor a 0. Inténtalo de nuevo: $" << REINICIAR;
+        cout << ROJO << "El precio debe ser mayor a 0. Inténtalo de nuevo: " << REINICIAR << "$";
         cin >> precios[numeroProductos];
     }
 
     cout << "Cantidad en inventario: ";
     cin >> cantidades[numeroProductos];
-    while (cantidades[numeroProductos] < 0)
+    while (cantidades[numeroProductos] <= 0)
     {
-        cout << ROJO << "La cantidad no puede ser negativa. Inténtalo de nuevo: " << REINICIAR;
+        cout << ROJO << "La cantidad debe de ser mayor a 0. Inténtalo de nuevo: " << REINICIAR;
         cin >> cantidades[numeroProductos];
     }
 
+    // Validar que el codigo del producto ingresado por el usuario NO exista ya en el stock de productos
+    string codigo, cur;
+    bool encontrado = true;
     cout << "Código del producto: ";
-    cin >> codigosProductos[numeroProductos];
+    while (encontrado == true)
+    {   
+        encontrado = false;
+        cin >> codigo;
+        for (int i = 0; i < 100; i++)
+        {
+            cur = codigosProductos[i];
+            if (codigo.compare(cur) == 0)
+            {
+                encontrado = true;
+                break;
+            }
+        }
+        
+        if (encontrado == true)
+        {
+            cout << ROJO << "El código del producto ya existe. Inténtalo de nuevo: " << REINICIAR;
+        }
+    }
+    codigosProductos[numeroProductos] = codigo;
+    numeroProductos++; 
 
     cout << VERDE << "Producto registrado exitosamente." << REINICIAR << endl;
-
-    numeroProductos++; 
 }
 
 // Función para eliminar productos
 void baja(void)
 {
     cout << AZUL << "Ingresa el código del producto que deseas eliminar: " << REINICIAR;
-    string codigoABorrar;
-    cin >> codigoABorrar;
+    string codigoAEliminar;
+    cin >> codigoAEliminar;
 
     bool encontrado = false;
-
     for (int i = 0; i < 100; i++)
     {
-        if (codigosProductos[i] == codigoABorrar && !nombresProductos[i].empty())
+        if (codigosProductos[i] == codigoAEliminar && !nombresProductos[i].empty())
         {
             encontrado = true;
-
-            
+            // Limpiar datos del producto
             nombresProductos[i].clear();
             descripciones[i].clear();
-            codigosProductos[i].clear();
             precios[i] = 0;
             cantidades[i] = 0;
-
-            cout << VERDE << "Producto eliminado exitosamente." << REINICIAR << endl;
+            codigosProductos[i].clear();
+            cout << VERDE << "Producto eliminado correctamente." << REINICIAR << endl;
+            numeroProductos--;
             break;
         }
     }
@@ -169,6 +189,7 @@ void baja(void)
         cout << ROJO << "No se encontró un producto con el código proporcionado." << REINICIAR << endl;
     }
 }
+
 
 // Función para modificar productos
 void modificar(void)
@@ -241,114 +262,197 @@ void modificar(void)
 
 }
 
-// Función para generar reportes
-void generarReporte(void) 
+void generarReporte() 
 {
-    int opcionOrdenamiento;
-    int totalProductos = 0;
-
-    // Contar productos registrados
-    for (int i = 0; i < 100; i++) 
+    if (numeroProductos == 0)
     {
-        if (!codigosProductos[i].empty()) { // Verificar si el código del producto no está vacío
-            totalProductos++;
-        }
-    }
-
-    // Verificar si existen productos registrados
-    if (totalProductos == 0) 
-    {
-        cout << ROJO << "No hay productos registrados." << REINICIAR << endl;
+        cout << ROJO << "No hay productos registrados " << endl << endl;
         return;
     }
 
-    // Preguntar al usuario cómo desea ordenar
-    cout << AZUL << "Seleccione el criterio de ordenamiento:" << REINICIAR << endl;
-    cout << "1. Por número de producto" << endl;
-    cout << "2. Por nombre de producto" << endl;
-    cin >> opcionOrdenamiento;
+    string thisCodigos[100], thisNombres[100], thisDescripciones[100];
+    int thisPrecios[100], thisCantidades[100];
 
-    // Crear copias para ordenar sin afectar el array original
-    int indices[100];
-    for (int i = 0; i < totalProductos; i++) 
+    cout << "Total de productos registrados: " << numeroProductos << endl;
+    for (int i = 0; i < 100; i++) 
     {
-        indices[i] = i; // Inicializar índices
-    }
-
-    // Ordenar por número de producto (ascendente)
-    if (opcionOrdenamiento == 1) 
-    {
-        for (int i = 0; i < totalProductos - 1; i++) 
+        if (!nombresProductos[i].empty()) 
         {
-            for (int j = i + 1; j < totalProductos; j++) 
-            {
-                // Convertir los códigos a enteros para comparación
-                int numero1 = stoi(codigosProductos[indices[i]]);
-                int numero2 = stoi(codigosProductos[indices[j]]);
-
-                if (numero1 > numero2) 
-                {
-                    // Intercambio de índices
-                    int temp = indices[i];
-                    indices[i] = indices[j];
-                    indices[j] = temp;
-                }   
-            }
+            cout << "----------------------------" << endl;
+            cout << "Código: " << codigosProductos[i] << endl;
+            cout << "Nombre: " << nombresProductos[i] << endl;
+            cout << "Descripción: " << descripciones[i] << endl;
+            cout << "Precio unitario: $" << precios[i] << endl;
+            cout << "Cantidad en existencia: " << cantidades[i] << endl;
+            cout << "----------------------------" << endl;
+            
+            thisCodigos[i] = codigosProductos[i];
+            thisNombres[i] = nombresProductos[i];
+            thisDescripciones[i] = descripciones[i];
+            thisPrecios[i] = precios[i];
+            thisCantidades[i] = cantidades[i];
         }
     }
 
-    else if (opcionOrdenamiento == 2) 
-    {
-        // Ordenar por nombre de producto
-        for (int i = 0; i < totalProductos - 1; i++) 
+    string op = "0";
+    while (op.compare("3") != 0) // Salir del menu hasta que el usuario presione 3
+    {      
+        cout << endl;
+        cout << AZUL << "Ingresa una de las siguientes opciones: " << endl;
+        cout << "1) Ordenar por código" << endl;
+        cout << "2) Ordenar por nombre de producto" << endl;
+        cout << "3) Salir" << endl << REINICIAR;
+        cin >> op;
+
+        if (op.compare("1") == 0)
         {
-            for (int j = i + 1; j < totalProductos; j++) 
+            // Ordenar por código ascendente   
+            for (int i = 0; i < numeroProductos - 1; i++) 
             {
-                // Comparar ignorando mayúsculas y minúsculas
-                string nombre1 = nombresProductos[indices[i]];
-                string nombre2 = nombresProductos[indices[j]];
-
-                // Convertir ambos nombres a minúsculas para comparación
-                for (char &c : nombre1) c = tolower(c);
-                for (char &c : nombre2) c = tolower(c);
-
-                if (nombre1 > nombre2) 
+                for (int j = i + 1; j < numeroProductos; j++) 
                 {
-                    // Intercambio de variables
-                    int temp = indices[i];
-                    indices[i] = indices[j];
-                    indices[j] = temp;
+                    if (thisCodigos[i] > thisCodigos[j]) {
+                        swap(thisCodigos[i], thisCodigos[j]);
+                        swap(thisNombres[i], thisNombres[j]);
+                        swap(thisDescripciones[i], thisDescripciones[j]);
+                        swap(thisPrecios[i], thisPrecios[j]);
+                        swap(thisCantidades[i], thisCantidades[j]);
+                    }
                 }
             }
         }
-    } 
-    else 
-    {
-        cout << ROJO << "Opción no válida. Muestra sin ordenamiento." << REINICIAR << endl;
-    }
+        else if (op.compare("2") == 0)
+        {
+            // Ordenar por nombre insensible a mayúsculas y minúsculas
+            for (int i = 0; i < numeroProductos - 1; i++) 
+            {
+                for (int j = i + 1; j < numeroProductos; j++) 
+                {
+                    string nombre1 = thisNombres[i];
+                    string nombre2 = thisNombres[j];
 
-    // Mostrar el reporte
-    limpiarPantalla();
-    imprimirMenu(4);
-    for (int i = 0; i < totalProductos; i++) 
-    {
-        int idx = indices[i];
-        cout << "------------------------------------------" << endl;
-        cout << "Número: " << codigosProductos[idx] << endl;
-        cout << "Nombre: " << nombresProductos[idx] << endl;
-        cout << "Descripción: " << descripciones[idx] << endl;
-        cout << "Precio unitario: $" << precios[idx] << endl;
-        cout << "Cantidad en existencia: " << cantidades[idx] << endl;
-        cout << "------------------------------------------" << endl;
-    }
+                    // Convertir ambos nombres a minúsculas para comparación case insensitive
+                    transform(nombre1.begin(), nombre1.end(), nombre1.begin(), ::tolower);
+                    transform(nombre2.begin(), nombre2.end(), nombre2.begin(), ::tolower);
 
-    cout << endl << AZUL << "Total de productos registrados: " << totalProductos << REINICIAR << endl;
+                    if (nombre1 > nombre2) 
+                    {
+                        swap(thisCodigos[i], thisCodigos[j]);
+                        swap(thisNombres[i], thisNombres[j]);
+                        swap(thisDescripciones[i], thisDescripciones[j]);
+                        swap(thisPrecios[i], thisPrecios[j]);
+                        swap(thisCantidades[i], thisCantidades[j]);
+                    }
+                }
+            }
+        }
+        else if (op.compare("3") == 0)
+        {
+            limpiarPantalla();
+            cout << ROJO << "Saliendo." << REINICIAR << endl;
+            return;
+        }
+        else
+        {
+            limpiarPantalla();
+            cout << ROJO << "Opcion no en la lista. Saliendo." << REINICIAR << endl;
+            return;
+        }
+
+        limpiarPantalla();
+        imprimirMenu(4);
+        cout << "Total de productos registrados: " << numeroProductos << endl;
+        // Mostrar productos ordenados
+        for (int i = 0; i < numeroProductos; i++) 
+        {
+            cout << "----------------------------" << endl;
+            cout << "Código: " << thisCodigos[i] << endl;
+            cout << "Nombre: " << thisNombres[i] << endl;
+            cout << "Descripción: " << thisDescripciones[i] << endl;
+            cout << "Precio unitario: $" << thisPrecios[i] << endl;
+            cout << "Cantidad en existencia: " << thisCantidades[i] << endl;
+            cout << "----------------------------" << endl;
+        }
+    }
 }
 
 // Función para mostrar historial
 void historial(void)
 {
-    // Implementar lógica de historial
+    string codigoProducto;
+    int unidades;
+    char tipoOperacion; // 'E' para entrada, 'S' para salida
+    bool encontrado = false;
+
+    cout << "Ingresa el código del producto: ";
+    cin >> codigoProducto;
+
+    // Buscar el producto por código
+    for (int i = 0; i < 100; i++)
+    {
+        if (codigosProductos[i] == codigoProducto && !nombresProductos[i].empty())
+        {
+            encontrado = true;
+
+            // Mostrar datos del producto
+            cout << "------------------------------------------" << endl;
+            cout << "Nombre: " << nombresProductos[i] << endl;
+            cout << "Descripción: " << descripciones[i] << endl;
+            cout << "Precio unitario: $" << precios[i] << endl;
+            cout << "Cantidad en existencia: " << cantidades[i] << endl;
+            cout << "------------------------------------------" << endl;
+
+            // Solicitar operación
+            cout << "Ingresa el tipo de operación (E para entrada, S para salida): ";
+            cin >> tipoOperacion;
+            tipoOperacion = toupper(tipoOperacion); // Convertir a mayúscula para evitar errores
+
+            if (tipoOperacion != 'E' && tipoOperacion != 'S')
+            {
+                cout << ROJO << "Operación inválida. Solo se permiten 'E' o 'S'." << REINICIAR << endl;
+                return;
+            }
+
+            // Solicitar número de unidades
+            cout << "Ingresa la cantidad de unidades: ";
+            cin >> unidades;
+
+            if (unidades <= 0)
+            {
+                cout << ROJO << "La cantidad debe ser mayor a 0. Operación cancelada." << REINICIAR << endl;
+                return;
+            }
+
+            if (tipoOperacion == 'E') // Entrada
+            {
+                cantidades[i] += unidades; // Incrementar la cantidad en existencia
+                limpiarPantalla();
+                cout << VERDE << "Entrada registrada exitosamente." << REINICIAR << endl;
+            }
+            else if (tipoOperacion == 'S') // Salida
+            {
+                if (cantidades[i] < unidades) // Verificar si hay suficiente inventario
+                {
+                    cout << ROJO << "No hay suficientes unidades en inventario. Operación cancelada." << REINICIAR << endl;
+                    return;
+                }
+                limpiarPantalla();
+                cantidades[i] -= unidades; // Decrementar la cantidad en existencia
+                cout << VERDE << "Salida registrada exitosamente." << REINICIAR << endl;
+            }
+
+            // Mostrar inventario actualizado
+            cout << "------------------------------------------" << endl;
+            cout << "Cantidad actualizada en el inventario: " << cantidades[i] << endl;
+            cout << "------------------------------------------" << endl;
+            return;
+        }
+    }
+
+    if (!encontrado)
+    {
+        cout << ROJO << "No se encontró un producto con el código proporcionado." << REINICIAR << endl;
+    }
 }
 
 // Elimina todos los carácteres de la pantalla del usuario usando comandos
