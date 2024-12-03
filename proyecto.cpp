@@ -275,24 +275,28 @@ void generarReporte(void)
         indices[i] = i; // Inicializar índices
     }
 
-    // Ordenar por criterio seleccionado
+    // Ordenar por número de producto (ascendente)
     if (opcionOrdenamiento == 1) 
     {
-        // Ordenar por número de producto
         for (int i = 0; i < totalProductos - 1; i++) 
         {
             for (int j = i + 1; j < totalProductos; j++) 
             {
-                if (nombresProductos[indices[i]] > nombresProductos[indices[j]]) 
+                // Convertir los códigos a enteros para comparación
+                int numero1 = stoi(codigosProductos[indices[i]]);
+                int numero2 = stoi(codigosProductos[indices[j]]);
+
+                if (numero1 > numero2) 
                 {
-                    // Intercambio de variables
+                    // Intercambio de índices
                     int temp = indices[i];
                     indices[i] = indices[j];
                     indices[j] = temp;
-                }
+                }   
             }
         }
-    } 
+    }
+
     else if (opcionOrdenamiento == 2) 
     {
         // Ordenar por nombre de producto
@@ -324,10 +328,12 @@ void generarReporte(void)
     }
 
     // Mostrar el reporte
+    limpiarPantalla();
     imprimirMenu(4);
     for (int i = 0; i < totalProductos; i++) 
     {
         int idx = indices[i];
+        cout << "------------------------------------------" << endl;
         cout << "Número: " << codigosProductos[idx] << endl;
         cout << "Nombre: " << nombresProductos[idx] << endl;
         cout << "Descripción: " << descripciones[idx] << endl;
@@ -336,7 +342,7 @@ void generarReporte(void)
         cout << "------------------------------------------" << endl;
     }
 
-    cout << AZUL << "Total de productos registraados: " << totalProductos << REINICIAR << endl;
+    cout << endl << AZUL << "Total de productos registrados: " << totalProductos << REINICIAR << endl;
 }
 
 // Función para mostrar historial
@@ -430,7 +436,7 @@ int validarOpcion(string s)
 void continuar(void)
 {
     string aux;
-    cout << VERDE << "Ingresa cualquier caracter para continuar." << REINICIAR << endl;
+    cout << VERDE << "Ingresa cualquier carácter para continuar." << REINICIAR << endl;
     cin >> aux;
 }
 
